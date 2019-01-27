@@ -1,14 +1,10 @@
 from abc import ABCMeta, abstractmethod
 from enum import Enum
 
-# class ExprType(Enum):
-    # CONST = "CONST"
-    # ADD = "SUM"
-
 class Expr(metaclass=ABCMeta):
 
     @abstractmethod
-    def eval(self):
+    def eval(self, varmap):
         pass
 
     def __add__(self, other):
@@ -29,7 +25,7 @@ class Const(Expr):
         super()
         self.val = val
 
-    def eval(self):
+    def eval(self, varmap):
         return self.val
 
 class BinopExpr(Expr, metaclass=ABCMeta):
@@ -43,8 +39,8 @@ class BinopExpr(Expr, metaclass=ABCMeta):
     def op(self, lhs, rhs):
         pass
 
-    def eval(self):
-        return self.op(self.valA.eval(), self.valB.eval())
+    def eval(self, varmap):
+        return self.op(self.valA.eval(varmap), self.valB.eval(varmap))
 
 class Add(BinopExpr):
 
@@ -67,6 +63,15 @@ class Mul(BinopExpr):
     def op(self, lhs, rhs):
         return lhs * rhs
 
+class Var(Expr):
 
-c = Const(2) * Const(5) + Const(1)
-print(c.eval())
+    def __init__(self, var):
+        super()
+        self.var = var
+
+    def eval(self, varmap):
+        return varmap[self.var]
+
+c = Const(2) * Const(5) + Const(1) * Var("x")
+varmap = {"x": 10}
+print(c.eval(varmap))
