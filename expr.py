@@ -31,12 +31,6 @@ class Expr(metaclass=ABCMeta):
     def __truediv__(self, other):
         return Div(self, other)
 
-    def match(self, casemap):
-        if self.exprtype() in casemap:
-            return casemap[self.exprtype()]()
-        else:
-            raise ValueError("no case found for exprs of exprtype " + self.exprtype())
-
 class Const(Expr):
 
     def __init__(self, val):

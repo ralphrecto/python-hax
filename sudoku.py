@@ -21,10 +21,10 @@ for x in range(0, SIZE):
             constraints.append(sq[x][y] != sq[x2][y])
 
         # 3x3sq constraints
-        sq_x_floor = int(math.floor(x / 3))
-        sq_y_floor = int(math.floor(y / 3))
-        for sq_x in range(sq_x_floor * 3, sq_x_floor + 3):
-            for sq_y in range(sq_y_floor * 3, sq_y_floor + 3):
+        sq_x_floor = int(math.floor(x / 3)) * 3
+        sq_y_floor = int(math.floor(y / 3)) * 3
+        for sq_x in range(sq_x_floor, sq_x_floor + 3):
+            for sq_y in range(sq_y_floor, sq_y_floor + 3):
                 if x != sq_x or y != sq_y:
                     constraints.append(sq[x][y] != sq[sq_x][sq_y])
 
